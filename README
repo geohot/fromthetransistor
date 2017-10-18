@@ -2,7 +2,7 @@
 
 Wrote this a few years ago, wanted to put it online. Hiring is hard, a lot of modern CS education is really bad, and it's so hard to find people who understand the modern computer stack from first principles.
 
-Maybe if I ever get 12 free weeks again I'll offer this as a play at home course. I want to play too.
+Maybe if I ever get 120 free weeks again I'll offer this as a play at home course. I want to play too.
 
 Section 1: Cheating our way past the transistor -- 0.5 weeks
 So about those transistors -- Course overview. Describe how FPGAs are buildable using transistors, and that ICs are just collections of transistors in a nice reliable package. Understand the LUTs and stuff. Talk briefly about the theory of transistors, but all projects must build on each other so we can’t build one. On the first day the board and a kit is handed out.

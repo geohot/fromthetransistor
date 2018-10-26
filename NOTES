@@ -1,0 +1,43 @@
+Section 1:
+
+Do the board in EAGLE, it's free for hobbyists
+https://www.autodesk.com/products/eagle/free-download
+
+FPGA Choice, Artix-7? Spartan-7? Ugh, all BGA
+Spartan-6
+
+Hmm, https://wiki.debian.org/FPGA/ says Lattice has an open toolchain
+
+How many LUTs will we need, I think 10k+
+
+I like ($34):
+https://www.digikey.com/product-detail/en/xilinx-inc/XC7A35T-1FTG256C/122-1910-ND/5039074
+33208 LUTs
+1843200 bits of RAM = 225kb, should be enough. can swap on SD :)
+
+It's BGA, but big pitch, should be doable on a two layer board, and overcome BGA fear.
+Pin conpatible with up to 100k LUT.
+
+For programming and serial ($12):
+https://www.digikey.com/products/en?mpart=CY7C68013A-56PVXC&v=428
+USB mini B
+
+2x tricolor LED (one for each microcontroller)
+SD card connector, need special hardware?
+
+Ethernet PHY, MII Interface ($2.38)
+https://www.digikey.com/product-detail/en/microchip-technology/KSZ8041TL/576-1619-ND/1534022
+
+Jack with built in magnetics ($4.30)
+https://www.digikey.com/product-detail/en/stewart-connector/SI-50170-F/380-1103-ND/1033369
+
+Power over USB
+Reset the FPGA over USB
+
+Section 2:
+
+We'll have to use Linux, there's no ISE for Mac.
+Actually it looks like it's "Vivado" now.
+Nope, ISE for Spartan 6, but Vivado for Artix 7
+
+

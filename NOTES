@@ -1,3 +1,13 @@
+META: Perhaps this is project is what you've been thinking about. Moving past academic exercises, this is computing and why does it suck so bad?
+
+Let's go slow and make the right decisions. Can we code in languages that are less likely to have bugs? i.e. avoid Python and C, think OCaml, Haskell, and Rust. Things worth learning, not trash you'll code fast than throw yourself at for days debugging. We are writing the whole stack, we have choices.
+
+Am I just Urbit but a couple years late? TODO: Explore the Urbit stack.
+
+
+What's changed is there's tons of compute in the world for compilation. Self hosting is an explicit non-goal. Compilers should do more "search" and "model", and less "translate".
+
+
 Section 1:
 
 Do the board in EAGLE, it's free for hobbyists
@@ -34,10 +44,35 @@ https://www.digikey.com/product-detail/en/stewart-connector/SI-50170-F/380-1103-
 Power over USB
 Reset the FPGA over USB
 
+Update: Can we find an FPGA dev board I can just buy? This should also all work in simulation, so we can start soon. Perhaps I can find something good in Shenzhen. Arty A7?
+
+
 Section 2:
 
 We'll have to use Linux, there's no ISE for Mac.
 Actually it looks like it's "Vivado" now.
 Nope, ISE for Spartan 6, but Vivado for Artix 7
+
+Update: Can we find something that works on Mac? Can we hack something? I really hate the bloated synth tools anyway. Or avoid Xilinx?
+
+
+Section 3:
+
+What's the minimal subset of ARM needed to be a decent processor? Based off Thumb? I don't think subleq is O(1) to real assembly languages. Turing machines aren't.
+
+It's fine to implement instructions in "software" aka "microcode"
+
+Also consider an LLVM machine. Is the LLVM spec nice?
+
+
+Section 4:
+
+Does that stuff make sense or is it legacy? The CompCert docs have an interesting take on what C is.
+
+
+
+Section 5:
+
+TODO: Read docs on microkernels.
 
 

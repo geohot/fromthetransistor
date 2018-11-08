@@ -3,6 +3,7 @@ import struct
 import usb1
 import time
 from hexdump import hexdump
+from tqdm import tqdm
 
 # DspiEnableEx:   3 6 0 <1: port request>
 # DspiDisable:    3 6 1 <1: port request>
@@ -23,6 +24,11 @@ class SPI(object):
   CMD_SET_SPI_MODE = 5
   CMD_SET_SELECT = 6
   CMD_PUT = 7
+  CMD_GET = 8
+  CMD_SET_DELAY = 9
+  CMD_GET_DELAY = 10
+  CMD_SET_START_END_DELAY = 11
+  CMD_GET_START_END_DELAY = 12
 
   def __init__(self, port):
     self.context = usb1.USBContext()
@@ -39,18 +45,34 @@ class SPI(object):
   def send_cmd_simple(self, num):
     self.handle.bulkWrite(1, struct.pack("BBBB", 3, 6, num, self.port))
     ret = self.handle.bulkRead(2, 0x10)
-    hexdump(ret)
+    #hexdump(ret)
     return ret
+
+  def send_cmd_get(self, num):
+    ret = self.send_cmd_simple(num)
+    assert len(ret) == 6
+    assert ret[0] == 5
+    assert ret[1] == 0
+    return struct.unpack("I", ret[2:])[0]
 
   def enable(self):
     ret = self.send_cmd_simple(self.CMD_ENABLE)
 
   def get_speed(self):
-    ret = self.send_cmd_simple(self.CMD_GET_SPEED)
-    assert len(ret) == 6
-    assert ret[0] == 5
-    assert ret[1] == 0
-    return struct.unpack("I", ret[2:])[0]
+    return self.send_cmd_get(self.CMD_GET_SPEED)
+
+  def set_speed(self, speed):
+    self.handle.bulkWrite(1, struct.pack("BBBBI", 7, 6, self.CMD_SET_SPEED, self.port, speed))
+    ret = self.handle.bulkRead(2, 0x10)
+    #hexdump(ret)
+
+  def get_delay(self):
+    return self.send_cmd_get(self.CMD_GET_DELAY)
+
+  def get_start_end_delay(self):
+    # broken?
+    #ret = self.send_cmd_simple(self.CMD_GET_START_END_DELAY)
+    pass
 
   def disable(self):
     ret = self.send_cmd_simple(self.CMD_DISABLE)
@@ -58,14 +80,44 @@ class SPI(object):
 
   def put(self, b, fSelStart=0, fSelEnd=1):
     rcv = 1
-    self.handle.bulkWrite(1, struct.pack("BBBBBBBI", 10, 6, 7, 0, fSelStart, fSelEnd, rcv, len(b)))
+
+    # queue send
+    self.handle.bulkWrite(1, struct.pack("BBBBBBBI", 10, 6, self.CMD_PUT, 0, fSelStart, fSelEnd, rcv, len(b)))
+    ret = self.handle.bulkRead(2, 0x10)
+    assert ret == b"\x01\x00"
+
     self.handle.bulkWrite(3, b)
-    hexdump(self.handle.bulkRead(2, 0x10))
-    hexdump(self.handle.bulkRead(2, 0x10))
-    hexdump(self.handle.bulkRead(4, 0x40))
+    ret = self.send_cmd_simple(0x87)  # done sending?
+
+    ret = self.handle.bulkRead(4, 0x40)
+    #hexdump(ret)
+    return ret
+
+  def get(self, num, fSelStart=0, fSelEnd=1, bFill=0):
+    self.handle.bulkWrite(1, struct.pack("BBBBBBBI", 10, 6, self.CMD_GET, 0, fSelStart, fSelEnd, bFill, num))
+    ret = self.handle.bulkRead(2, 0x10)
+    dret = self.handle.bulkRead(4, num)
+    assert len(dret) == num
+    ret = self.send_cmd_simple(0x88)
+    return dret
+
 
 spi = SPI(0)
-print(spi.get_speed())
+print("speed:",spi.get_speed())
+spi.set_speed(4000000)
+print("speed:",spi.get_speed())
+print("delay:",spi.get_delay())
 spi.put(b"\x9e" + b"\x00"*20)
+
+allret = []
+for addr in tqdm(range(0, 0x1000000, 0x1000)):
+  ret = spi.put(b"\x03" + struct.pack(">I", addr)[1:], fSelEnd=0)
+  ret = spi.get(0x1000, fSelEnd=0)
+  allret.append(ret)
+
+out = b''.join(allret)
+with open("dump", "wb") as f:
+  f.write(out)
+
 del spi
 

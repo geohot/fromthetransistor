@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 import struct
 import usb1
+import time
+from hexdump import hexdump
 
 context = usb1.USBContext()
 handle = context.openByVendorIDAndProductID(0x1443, 0x0007)
@@ -30,13 +32,15 @@ def spi_get_speed():
   return struct.unpack("I", ret[2:])[0]
 
 def spi_put(b):
-  fSelStart = 1
-  fSelEnd = 0
-  rcv = 0
+  fSelStart = 0
+  fSelEnd = 1
+  rcv = 1
   handle.bulkWrite(1, struct.pack("BBBBBBBI", 10, 6, 7, 0, fSelStart, fSelEnd, rcv, len(b)))
   handle.bulkWrite(3, b)
-  ret = handle.bulkRead(2, 0x10)
-  print(ret)
+  print(handle.bulkRead(2, 0x10))
+  hexdump(handle.bulkRead(2, 0x10))
+  hexdump(handle.bulkRead(4, 0x40))
+  #time.sleep(1.0)
 
 def spi_enable(port):
   handle.bulkWrite(1, struct.pack("BBBB", 3, 6, 0, port))
@@ -49,8 +53,10 @@ def spi_disable(port):
 spi_enable(0)
 print(spi_get_speed())
 
-spi_disable(0)
+spi_put(b"\x9e" + b"\x00"*20)
 
+print("disable")
+spi_disable(0)
 
 exit(0)
 

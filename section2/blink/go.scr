@@ -1,5 +1,5 @@
 run
--ifn ../go.prj
+-ifn go.prj
 -ofn go.ngc
 -ifmt mixed
 -top ledflash

@@ -1,7 +1,8 @@
 #!/bin/bash
 
+mkdir -p out
+
 # synthesize the verilog
-xilinx xst
-ledflash.v
+xilinx xst -ifn go.scr
 
 

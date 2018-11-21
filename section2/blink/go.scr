@@ -1,0 +1,8 @@
+run
+-ifn ../go.prj
+-ofn go.ngc
+-ifmt mixed
+-top ledflash
+-ofmt NGC
+-p spartan6
+

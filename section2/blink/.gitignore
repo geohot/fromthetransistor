@@ -6,3 +6,10 @@ go.srp
 ledflash.lso
 xst/
 
+go.bld
+go.map.map
+go.map.mrp
+go.ngd
+go_ngdbuild.xrpt
+netlist.lst
+xlnx_auto_0_xdb/

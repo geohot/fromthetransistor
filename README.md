@@ -7,31 +7,64 @@ Now cleaned up and going to be software only. Closer to being real.
 # Section 1: Intro: Cheating our way past the transistor -- 0.5 weeks
 ## Transistors
 *What is a transistor?*
+*Talk briefly about the theory of transistors*
+
+**Reference Links**
+Transistor Theory - https://backyardbrains.com/experiments/transistorTheory#prettyPhoto
+Transistor Circuit Design - https://backyardbrains.com/experiments/transistorDesign
+
+
 History - Before the transistor
-**Vaccum tubes**
-  - Use heat turn circuits on or off
+**Vaccum tubes** TODO
+  - use heat turn circuits on or off
 
-**silicon**
-  - semiconductor: conducts electricity on some conditions; makes easy to turn circuit on and off.
-  - will form covalent bonds with other silicon atoms
+**Transistors**
+  - the "atoms" of integrated circuits
+  - used as switches or amplifiers to electrical currents
+  - made out of p-n junctions - borders between two materials with different charges on them
 
-**Integrated circuits**
-  - by adding Phosphorus (has extra electron) to a group of silicon atoms, we create a negative charge, since extra electron is bouncing through group of silicon atoms; phosphorus -> **negative charge**
-  - by adding Boron (wants electron), to a group of silicon atoms, we create a whole, since silicon atoms will steal electrons from other silicon atoms constantly; **boron -> positive charge**
+**Electricity**
+  - the motion of electrons through charged semiconductant materials - in this case, silicon
+
+**Silicon**
+  - semiconductor with 4 electrons on its outer energy level; is able to form a stable crystal lattice made of four-way covalent bonds when not altered
+
+  **Doping Silicon - Introducing Charge**
+    - replacing silicon atoms with phosphorous atoms in a matrix of silicon atoms introduces a negative charge since extra electrons are bouncing through the group of silicon atoms; **phosphorous -> negative charge**
+    - replacing silicon atoms with boron atoms in a matrix of silicon atoms creates "holes" (missing electrons), introducing a positive charge in the silicon plate; **boron -> positive charge**
+
+  **Dead Zone / Depletion Layer**
+    - when p-doped and n-doped silicon plates meet, the junction between the plates will form a "barrier" where the extra electrons from the n-doped plate join the holes from the p-doped plate; this area has no charge
+    - when large enough, the dead zone effectively blocks the flow of electrons crossing the p-n junction, preventing the flow of electricity
+    - can be manipulated in size by applying differently charged voltages to the p-doped and n-doped plates
+
+**Diodes**
+ **Reverse Bias**
+    - when positive voltage is applied to n-doped side and negative voltage is applied to positive side, it increases the dead zone layer and prevents the flow of current
+  **Forward Bias**
+    - if positive voltage is added to positive side and negative voltage is added to negative side: electrons will flow through the circuit
 
 **Bipolar junction transistor**
-- NPN type transistor (negative/positive)
-    - Three areas: N Type, then P type, then N type.
-    - excess electrons in N areas will move to P area, preventing current from flowing
-    - if positive voltage is added: electrons will flow through the circuit
+  - NPN type transistor (negative/positive)
+    - Three areas: N Type (side 1), then P Type (side 2), then N type (side 3); the sides of the P type (side 2) form depletion layers between it and the N types
+    - When a negative voltage is applied to side 1 (N type), then it causes the depletion layer between side 1 and side 2 to be larger (electrons are "pushed" towards the holes, causing more holes to fill up), which reduces the second depletion layer due to a larger attraction with the side with the negative voltage
+    - When a positive voltage is then applied to side 2 (P type), electrons will begin to cross because the second depletion layer is small enough for electrons to jump it
+    
+    - Thus, you need two voltages; a negative one to side 1 or 3, and a positive one to side 2
+
+*What are Integrated Circuits?*
 
 **Boolean logic**
   - Integrated circuits can be used to represent information
   - Each transistor can be on or off, we can use boolean gates to create additions, and conditional logic (ex AND, OR, XOR)
 
-**Transistors**
-  - composed of integrated circuits
+  **Flip flops**
+    - 1 or more flip flops in a CLB
+    - Latched and clocked logic
+
 *What are FPGAs?*
+*Describe how FPGAs are buildable using transistors.*
+
 Field Programmable Gate Array
 - Closest you can get to designing your own chip
 - Design digital functions
@@ -46,13 +79,12 @@ Field Programmable Gate Array
 - contain **Flip flops** and **LUTs**
 - flexible inputs
 
+*What are LUTs?*
+
 **Lookup table**
 - 4 inputs or more
 - programmable
 
-**Flip flops**
-- 1 or more flip flops in a CLB
-- Latched and clocked logic
 
 *FPGAs vs Microcontrollers vs Microprocessors*
 **Microprocessor**
@@ -69,15 +101,6 @@ Field Programmable Gate Array
 - Come in BGA packages - 100 pins at least
 - No internal oscilator
 - 
-
-
-*Describe how FPGAs are buildable using transistors.*
-
-*What are Integrated Circuits?*
-
-*What are LUTs?*
-
-*Talk briefly about the theory of transistors*
 
 ## Emulation
 Building on real hardware limits the reach of this course. Using something like Verilator will allow anyone with a computer to play

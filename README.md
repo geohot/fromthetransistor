@@ -4,82 +4,95 @@ Hiring is hard, a lot of modern CS education is really bad, and it's hard to fin
 
 Now cleaned up and going to be software only. Closer to being real.
 
-Note: Not a fork because Github won't give me contributions. Also, not planning on merging upstream.
+# Section 1: Intro: Cheating our way past the transistor -- 0.5 weeks
+## Transistors
+*What is a transistor?*
+*Talk briefly about the theory of transistors*
 
-## Section 1: Intro: Cheating our way past the transistor -- 0.5 weeks
-### Transistors
-*What is a transistor?* *Talk briefly about the theory of transistors*
+**Reference Links**
+ - Transistor Theory - https://backyardbrains.com/experiments/transistorTheory#prettyPhoto
+ - Integrated Circuits - https://learn.sparkfun.com/tutorials/integrated-circuits/all
 
-**Reference Links**    
-Transistor Theory - https://backyardbrains.com/experiments/transistorTheory#prettyPhoto  
-Transistor Circuit Design - https://backyardbrains.com/experiments/transistorDesign  
 
-**History - Before the transistor**  
-**Vaccum tubes**  
-- use heat turn circuits on or of  
+*History - Before the Transistor*
 
-**Transistors**  
-- the "atoms" of integrated circuits  
-- used as *switches* or amplifiers to electrical currents  
-- made out of p-n junctions - borders between two materials with different charges on them  
+**Vaccum tubes** @TODO
+  - use heat turn circuits on or off
 
-**Electricity** - the motion of electrons through charged semiconductant materials - in this case, silicon  
+**Transistors**
+  - the "atoms" of integrated circuits
+  - used as switches or amplifiers to electrical currents
+  - made out of p-n junctions - borders between two materials with different charges on them
 
-**Silicon** - semiconductor with 4 electrons on its outer energy level; is able to form a stable crystal lattice made of four-way covalent bonds when not altered
+**Electricity**
+  - the motion of electrons through charged semiconductant materials - in this case, silicon
+  - always flows from high voltage to low voltage
 
-**Diodes** - Allows current to flow in one direction if a certain voltage is reached. Consists of *anode*, depletion layer *cathode*  
-  **Anode** - P-doped (positive) side of junction  
-  **Depletion layer** - Emerges where the excess electrons from the cathode and holes from the anode meet, creating a layer depleted of charge.  
-  **Cathode** - N-doped (negative) side of junction  
-  **Reverse Bias** - when positive voltage is applied to n-doped side and negative voltage is applied to positive side, it increases the dead zone layer and prevents the flow of current  
-  **Forward Bias** - if positive voltage is added to positive side and negative voltage is added to negative side: electrons will flow through the circuit  
+**Silicon**
+  - semiconductor with 4 electrons on its outer energy level; is able to form a stable crystal lattice made of four-way covalent bonds when not altered
 
-**Doping Silicon - Introducing Charge**  
-- replacing silicon atoms with phosphorous atoms in a matrix of silicon atoms introduces a negative charge since extra electrons are bouncing through the group of silicon atoms; **phosphorous -> negative charge**  
-- replacing silicon atoms with boron atoms in a matrix of silicon atoms creates "holes" (missing electrons), introducing a positive charge in the silicon plate; **boron -> positive charge**  
+  **Doping Silicon: Introducing Charge**
+    - replacing silicon atoms with phosphorous atoms in a matrix of silicon atoms introduces a negative charge since extra electrons are bouncing through the group of silicon atoms; `phosphorous -> negative charge`
+    - replacing silicon atoms with boron atoms in a matrix of silicon atoms creates "holes" (missing electrons), introducing a positive charge in the silicon plate; `boron -> positive charge`
 
-**Depletion Layer / Dead Zone**  
-- when p-doped and n-doped silicon plates meet, the junction between the plates will form a "barrier" where the extra electrons from the n-doped plate join the holes from the p-doped plate; this area has no charge  
-- when large enough, the dead zone effectively blocks the flow of electrons crossing the p-n junction, preventing the flow of electricity  
-- can be manipulated in size by applying differently charged voltages to the p-doped and n-doped plates  
+  **Dead Zone (Depletion Layer)**
+    - when p-doped and n-doped silicon plates meet, the junction between the plates will form a "barrier" where the extra electrons from the n-doped plate join the holes from the p-doped plate; this area has no charge
+    - when large enough, the dead zone effectively blocks the flow of electrons crossing the p-n junction, preventing the flow of electricity
+    - can be manipulated in size by applying differently charged voltages to the p-doped and n-doped plates
 
-**NPN Bipolar junction transistor type transistor**  
-- Three areas: N Type (side 1), then P Type (side 2), then N type (side 3); the sides of the P type (side 2) form depletion layers between it and the N types  
-- When a negative voltage is applied to side 1 (N type), then it causes the depletion layer between side 1 and side 2 to be larger (electrons are "pushed" towards the holes, causing more holes to fill up), which reduces the second depletion layer due to a larger attraction with the side with the negative voltage  
-- When a positive voltage is then applied to side 2 (P type), electrons will begin to cross because the second depletion layer is small enough for electrons to jump it  
-- Thus, you need two voltages; a negative one to side 1 or 3, and a positive one to side 2  
+**Diodes**
+ **Reverse Bias**
+    - when positive voltage is applied to n-doped side and negative voltage is applied to positive side, it increases the dead zone layer and prevents the flow of current
+  **Forward Bias**
+    - if positive voltage is added to positive side and negative voltage is added to negative side: electrons will flow through the circuit
 
-### Integrated Circuits  
-**What are Integrated Circuits?** - Very small complete circuit, made out of silicon  
+**Bipolar junction transistor**
+  - NPN type transistor (negative/positive)
+    - Three areas: N Type (side 1), then P Type (side 2), then N type (side 3); the sides of the P type (side 2) form depletion layers between it and the N types
+    - When a negative voltage is applied to side 1 (N type), then it causes the depletion layer between side 1 and side 2 to be larger (electrons are "pushed" towards the holes, causing more holes to fill up), which reduces the second depletion layer due to a larger attraction with the side with the negative voltage
+    - When a positive voltage is then applied to side 2 (P type), electrons will begin to cross because the second depletion layer is small enough for electrons to jump it
+    
+    - Thus, you need two voltages; a negative one to side 1 or 3, and a positive one to side 2
 
-**How are Integrated Circuits made?**  
-1. **create Wafer** - Slice a cylinder of silicon to create a wafer  
-2. **Masking** - Add protective layer called **photoresist** to all of wafer  
-3. **Etching** - Remove **photoresist** from some parts of silicon  
-4. **Doping** - Introduce impurities into the etched parts of silicon. This can be done by heating up the wafer, or blasting positively and negetively charged atoms onto it. This will create n-doped junctions and p-doped junctions.  
+*What are Integrated Circuits?* @TODO
 
-**Boolean logic** - Math. function with binary input, binary output. Ex: fn = AND(one: 0|1, two: 0|1) -> out: 0|1  
-**Logic gates** Implementation of boolean logic, usually with transistors. Transistors can act as switches, which can be on or off. We can use boolean gates to create boolean logic (ex AND, OR, XOR).  
+**Boolean logic**
+  - Integrated circuits can be used to represent information
+  - Each transistor can be on or off, we can use boolean gates to create additions, and conditional logic (ex AND, OR, XOR)
 
-**FPGA - Field Programmable Gate Array**
-- Closest you can get to designing your own chip  
-- Design digital functions by programming the hardware using an HDL like Verilog  
-- Can be used (theoretically, not practically) in place of any microcontroller: digital siganl processor, progam LEDs, etc  
-- Composed of 10s of thousands of (or more) **CLBS** for hobbby FPBGAs; in those CLBS are many Logic Blocks  
+  **Flip flops**
+    - 1 or more flip flops in a CLB
+    - Latched and clocked logic
 
-**CLB - Configurable Logic Block**
-- More complex than Gates because they can implement any digital function, have flexible inputs  
-- Can be programmed with HDL or Verilog  
-- Contain a few *logic cells*  
+*What are FPGAs?*
+*Describe how FPGAs are buildable using transistors.*
 
-**Logic cell** - Contains *Flip flops*, a *full-adder* and *LUTs*  
+Field Programmable Gate Array
+- Closest you can get to designing your own chip
+- Design digital functions
+- Can turn into any microcontroller: digital siganl processor, progam LEDs, etc
+- Composed of 10s of thousands of (or more) **CLBS** for hobbby FPBGAs
+- **CLBS** can be programmed with HDL or Verilog
 
-**Full-adder** - Takes in two binary inputs, each one bit, and a carry input, outputs the sum of the binary inputs, and the carry bit.
+**CLB**
+- Configurable Logic Block
+- Can implement any digital function
+- More complex than Gates 
+- contain **Flip flops** and **LUTs**
+- flexible inputs
 
-**LUTs - Lookup tables** - Implentation of Boolean Gates (AND|OR|...) using muxes that act as truth tables. We hardcode the output for specific inputs. 
+*What are LUTs?*
 
-**Register/Flip flop** - Record the value of input every clock cycle. Used to "record" state.
+**Lookup table**
+- 4 inputs or more
+- programmable
 
+
+*FPGAs vs Microcontrollers vs Microprocessors*
+**Microprocessor**
+- multipurpose
+- has clock
+-
 **Microcontroller**
 - CPU
 - memory (in memory cells within a IC chip)

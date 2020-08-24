@@ -1,0 +1,13 @@
+# DESCRIPTION: Verilator output: Timestamp data for --skip-identical.  Delete at will.
+C "-Wall --cc hello.v --exe --build hello.cpp"
+S   5210556  6417264  1598120972           0  1597497501           0 "/usr/local/Cellar/verilator/4.040/bin/verilator_bin"
+S        80  6456236  1598142049           0  1598142049           0 "hello.v"
+T      3320  6456696  1598142472           0  1598142472           0 "obj_dir/Vhello.cpp"
+T      2304  6456694  1598142472           0  1598142472           0 "obj_dir/Vhello.h"
+T      1779  6456698  1598142472           0  1598142472           0 "obj_dir/Vhello.mk"
+T      1856  6456695  1598142472           0  1598142472           0 "obj_dir/Vhello__Slow.cpp"
+T       539  6456692  1598142472           0  1598142472           0 "obj_dir/Vhello__Syms.cpp"
+T       787  6456693  1598142472           0  1598142472           0 "obj_dir/Vhello__Syms.h"
+T       291  6456699  1598142472           0  1598142472           0 "obj_dir/Vhello__ver.d"
+T         0        0  1598142472           0  1598142472           0 "obj_dir/Vhello__verFiles.dat"
+T      1546  6456697  1598142472           0  1598142472           0 "obj_dir/Vhello_classes.mk"

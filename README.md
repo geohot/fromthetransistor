@@ -4,6 +4,8 @@ Hiring is hard, a lot of modern CS education is really bad, and it's hard to fin
 
 Now cleaned up and going to be software only. Closer to being real.
 
+Note: Not a fork because Github won't give me contributions. Also, not planning on merging upstream.
+
 ## Section 1: Intro: Cheating our way past the transistor -- 0.5 weeks
 ### Transistors
 *What is a transistor?* *Talk briefly about the theory of transistors*
@@ -90,7 +92,7 @@ Building on real hardware limits the reach of this course. Using something like 
 
 ## Section 2: Bringup: What language is hardware coded in? -- 0.5 weeks
 - Blinking an LED(Verilog, 10) -- Your first little program! Getting the simulator working. Learning Verilog.
-- Building a UART(Verilog, 100) -- An intro chapter to Verilog, copy a real UART, introducingsubchapters the concept of MMIO, though the serial port may be semihosting. Serial test echo program and led control.
+- Building a UART(Verilog, 100) -- An intro chapter to Verilog, copy a real UART, introducing the concept of MMIO, though the serial port may be semihosting. Serial test echo program and led control.
 
 ## Section 3: Processor: What is a processor anyway? -- 3 weeks
 - Coding an assembler(Python, 500) -- Straightforward and boring, write in python. Happens in parallel with the CPU building. Teaches you ARM assembly. Initially outputs just binary files, but changed when you write a linker.

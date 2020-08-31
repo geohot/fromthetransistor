@@ -60,10 +60,9 @@ Transistor Circuit Design - https://backyardbrains.com/experiments/transistorDes
 **Logic gates** Implementation of boolean logic from discrete logic units (transistors and such). Transistors can act as switches, which can be on or off. We can use boolean gates to create boolean logic (ex AND, OR, XOR).  
 
 **FPGA - Field Programmable Gate Array**
-- Closest you can get to designing your own chip  
-- Design digital functions by programming the hardware using an HDL like Verilog  
-- Can be used (theoretically, not practically) in place of any microcontroller: digital siganl processor, progam LEDs, etc  
-- Composed of 10s of thousands of (or more) **CLBS** for hobbby FPBGAs; in those CLBS are many Logic Blocks  
+- "programmable hardware"; you can configure digital logic that will run on actual hardware (LUTS, Switches, FlipFlops, and BRAM)
+- Design digital functions by programming the hardware using an HDL like Verilog or VHDL; helpful note: not programming languages
+- Composed of 10s of thousands of (or more) **CLBS** for hobbby FPBGAs; in those CLBS are many Logic Blocks, signals are routed using the Interconnected Matrix which sounds like a matrix of wires that allow signals to be routed to Logic Blocks through Switches (latches?); inputs and outputs can be "programmed" or configured in the LUT acting like a Truth Table that simulates practically any function with the same number of inputs and outputs; signals can be then routed anywhere within the FPGA
 
 **CLB - Configurable Logic Block**
 - More complex than Gates because they can implement any digital function, have flexible inputs  

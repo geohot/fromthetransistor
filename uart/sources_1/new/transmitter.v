@@ -3,7 +3,7 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 09/01/2020 08:09:50 PM
+// Create Date: 09/03/2020 06:28:44 PM
 // Design Name: 
 // Module Name: transmitter
 // Project Name: 
@@ -18,23 +18,22 @@
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
-
-
 module transmitter(
     input baud_rate_clock,
     input [7:0] data,
     input enable,
+    output [2:0] o_transmission_state,
     output reg serial_connection,
-    output done
+    output done,
+    output [2:0] o_byte_index
 );
 parameter IDLE = 2'b00;
 parameter START = 2'b01;
 parameter DATA = 2'b10;
 parameter END = 2'b11;
 
-reg transmission_state = IDLE;
-
-integer byte_index = 0;
+reg [2:0] transmission_state = IDLE;
+reg [2:0] byte_index = 0;
 
 reg r_done = 1'b0;
 
@@ -46,6 +45,7 @@ begin
             if (enable == 1'b1)
             begin
                 transmission_state <= START;
+                serial_connection <= 1'b0;
             end
             else
             begin
@@ -62,15 +62,17 @@ begin
         
         DATA:
         begin
-            if (byte_index < 8)
+            if (byte_index < 7)
             begin
                 serial_connection <= data[byte_index];
                 byte_index <= byte_index + 1;
+                transmission_state <= DATA;
             end
             else
             begin
-                transmission_state <= END;
                 byte_index <= 0;
+                serial_connection <= 1'b1;
+                transmission_state <= END;
             end
         end
         
@@ -88,6 +90,8 @@ begin
 end
 
 assign done = r_done;
-
+assign o_transmission_state = transmission_state;
+assign o_byte_index = byte_index;
 // baud_rate_clock = clocks_per_second / bits_per_second
 endmodule
+

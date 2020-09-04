@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 09/01/2020 08:55:37 PM
+// Create Date: 09/03/2020 06:31:27 PM
 // Design Name: 
-// Module Name: receiver
+// Module Name: reciever
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -19,10 +19,9 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-
 module receiver(
-    input baud_rate_clock,
-    input serial_connection,
+    input wire baud_rate_clock,
+    input wire serial_connection,
     output reg [7:0] data
 );
 parameter IDLE = 2'b00;
@@ -41,7 +40,7 @@ begin
     case (transmission_state)
         IDLE:
         begin
-            if (serial_connection <= 1'b0)
+            if (serial_connection   == 1'b0)
                 transmission_state <= START;
             else
                 transmission_state <= IDLE;

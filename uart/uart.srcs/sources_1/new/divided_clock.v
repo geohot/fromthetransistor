@@ -18,29 +18,30 @@
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
+/* clock_divider: used to get the transmitter and receiver to run at the same baud rate.
+   This is useful to avoid counting in the transmitter and receiver.
+ */
+module clock_divider  #(parameter CLK_FREQUENCY = 50000000, parameter BAUD_RATE = 50000000)(
+    input i_clock,
+    output o_divided_clock  
+);
 
-
-module clock_divider  #(parameter div_value=500000)(  // 500M if we want div_clock to run once a second, div_value = clock cycles. ex. 1Hz = 1000
-input wire clock, // 100MHz = 100M clock cycles/sec
-output reg divided_clock = 0// 1Hz => 0.5s on, 0.5s off
-    );
+integer clks_per_bit = CLK_FREQUENCY / BAUD_RATE;
 integer counter = 1;
 
-// runs every clock cycle
-always @(posedge clock) // sensitivity list
-begin
-    if (counter == div_value)
+reg divided_clock = 0;
+
+always @(posedge i_clock)
+    if (counter == clks_per_bit)
         begin
-            divided_clock = ~divided_clock; // flip signal
+            divided_clock <= ~divided_clock;
             counter <= 0;
         end
    else
         begin
-            // = sequential assignment
-            // <= parallel assignment
             divided_clock <= divided_clock;
             counter <= counter + 1;
         end
-   end
         
+   assign o_divided_clock = divided_clock;
 endmodule

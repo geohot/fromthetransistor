@@ -1,14 +1,18 @@
-MNEMONICS = {
-    MOV: ,
-    ADD: '0',
-    AND: '0',
-    LDR: '0',
-    CMP: '0',
-    STR: '0',
-    JMP: '0',
-    ORR: '0',
-    XOR: '0',
-    POP: '0' ,
-    PUSH: '0' ,
-    JEQ: '0',
-}
+from enum import Enum
+
+class Mnemonic(Enum):
+    MOVE = 'mov'
+    ADD = 'add'
+    AND = 'and'
+    LOAD = 'ldr'
+    COMPARE = 'cmp'
+    STR = 'str'
+    JUMP = 'jmp'
+    OR = 'orr'
+    XOR = 'xor'
+    POP = 'pop'
+    PUSH = 'push'
+    JEQ = 'jeq'
+
+mnemonic_literals = list(map(lambda c: c.value, Mnemonic))
+

@@ -1,6 +1,7 @@
 import os
 import enum 
 import sys
+from mnemonics import mnemonic_literals
 
 class TokenType(enum.Enum):
     MNEMONIC = enum.auto()
@@ -51,7 +52,7 @@ def get_next_token(s: str, start: int) -> (Token, int):
 def get_literal_token(literal: str) -> Token:
     token = Token(TokenType.ILLEGAL, literal)
 
-    if literal in MNEMONICS:
+    if literal in mnemonic_literals:
         token.token_type = TokenType.MNEMONIC
 
     elif literal == ",":
@@ -69,3 +70,4 @@ def get_literal_token(literal: str) -> Token:
 # FIX: add new lines, 
 def is_whitespace(ch: str) -> bool:
     return ch == " "
+

@@ -20,54 +20,53 @@ class Token:
         self.literal = literal
 
     def __str__(self):
-        return self.token_type.__str__()
+        return "token_type: " + self.token_type.__str__() + ", literal: " + self.literal.__str__()
 
-def tokenize_instructions(text: str) -> [[Token]]:
-    lines = text.splitlines()
-    tokens = []
-    for line in lines:
-        start = 0
-        line_tokens = []
-        while start < len(line):
-            (token, end) = get_next_token(line, start)
-            start = end
-            line_tokens.append(token)
-        line_tokens.append(Token(TokenType.EOL, "\n"))
-        tokens.append(line_tokens)
+class Lexer:
+    def __init__(self):
+        self.tokens = []
+        self.current = 0
 
-    return tokens
-            
-def get_next_token(s: str, start: int) -> (Token, int):
-    if s[start] == ",":
-        return (Token(TokenType.COMMA, s[start]), start + 1)
-    for i in range(start, len(s)):
-        if is_whitespace(s[i]) or s[i] == ",":
-            literal = s[start:i] 
-            if is_whitespace(s[i]):
-                return (get_literal_token(literal), i + 1)
-            return (get_literal_token(literal), i)
+    def is_digit(self, string: str) -> bool:
+        try:
+            int(string)
+            return True
+        except:
+            return False
 
-    return (get_literal_token(s[start:]), len(s))
+    def is_whitespace(self, char: str) -> bool:
+        return char == " "
 
-def get_literal_token(literal: str) -> Token:
-    token = Token(TokenType.ILLEGAL, literal)
+    def tokenize_instructions(self, input_text: str) -> [[Token]]:
+        for line in input_text.splitlines():
+            while self.current < len(line):
+                if not self.is_whitespace(line[self.current]): 
+                    self.tokens.append(self.next_token(line, len(line)))
+                self.current += 1
+            self.tokens.append(Token(TokenType.EOL, "\n"))
+            self.current = 0
 
-    if literal in mnemonic_literals:
-        token.token_type = TokenType.MNEMONIC
+        return self.tokens
 
-    elif literal == ",":
-        token.token_type = TokenType.COMMA
+    def next_token(self, input_text: str, end: int) -> Token:
+        start = self.current
+        while self.current < end:
+            if self.is_whitespace(input_text[self.current]):
+                return Token(self.token_type(input_text[start:self.current]), input_text[start:self.current])
+            elif self.current + 1 < end and input_text[self.current + 1] == ',':
+                return Token(self.token_type(input_text[start:self.current + 1]), input_text[start:self.current + 1])
+            self.current += 1
+        return Token(self.token_type(input_text[start:self.current]), input_text[start:self.current])
 
-    elif len(literal) > 0:
-        if literal[0] == 'r':
-            token.token_type = TokenType.REGISTER
-
-        elif literal[0] == '#':
-            token.token_type = TokenType.CONSTANT
-
-    return token
-
-# FIX: add new lines, 
-def is_whitespace(ch: str) -> bool:
-    return ch == " "
+    def token_type(self, literal: str) -> TokenType:
+        if literal == ',':
+            return TokenType.COMMA
+        if literal in mnemonic_literals:
+            return TokenType.MNEMONIC
+        if len(literal) > 1:
+            if literal[0] == 'r' and self.is_digit(literal[1:]):
+                return TokenType.REGISTER
+            elif literal[0] == '#':
+                return TokenType.CONSTANT
+        return TokenType.ILLEGAL
 

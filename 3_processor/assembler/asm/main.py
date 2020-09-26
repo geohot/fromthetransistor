@@ -1,18 +1,22 @@
-from assembler import *
-from parser import *
+import sys
+from assembler import Assembler
+from lexer import Lexer
 
 def main():
     file_text = get_file_text()
-    instructions = tokenize_instructions(file_text) # [[mov, r1, #7], ...]
+    assembler = Assembler()
+    lexer = Lexer()
+
+    instructions = lexer.tokenize_instructions(file_text) # [[mov, r1, #7], ...]
+
     print("look at my coins")
     for tokens in instructions:
         for token in tokens: 
             print(token)
 
-    bin_instructions = assemble_instructions(instructions)
+    bin_instructions = assembler.assemble_instructions(instructions)
 
     print("look at my binaries")
-
     # FIX: write all bin_instructions into a file
     for bin_inst in bin_instructions:
         print(bin_inst)

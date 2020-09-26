@@ -1,13 +1,28 @@
 from lexer import *
 from mnemonics import Mnemonic
 
+MAX_REGISTER_NUM = 11
+
+def validate_register(register: str) -> None:
+    reg_num = int(register[1:])
+
+    if reg_num < 0 or reg_num > MAX_REGISTER_NUM:
+        return Exception(f'register ${register} must be between 0-${MAX_REGISTER_NUM}')
+
+    return None
+
 '''
 0000 00 1 1101 0 0000 0010 000000000101 # mov r2, #5
 ____ _________ _ ____ ____ ____________
 cond   inst    S 0000  Rd      imm12
 '''
 
-def assemble_mov_imm(dest_reg: str, source_const: str) -> str:
+def assemble_mov_imm(tokens: [Token]) -> str:
+    dest_reg = tokens[1].literal
+    error = validate_register(dest_reg)
+    if not error == None:
+        return error
+    source_const = tokens[3].literal
     return format_mov_imm(int(dest_reg[1:]), int(source_const[1:]))
 
 def format_mov_imm(dest_reg: int, source_const: int) -> str:
@@ -24,7 +39,15 @@ def format_mov_imm(dest_reg: int, source_const: int) -> str:
 ____ _________ _ ____ ____ ________ ____
 cond   inst    S  0s   Rd    0s      Rm 
 '''
-def assemble_mov_reg(dest_reg: str, source_reg: str) -> str:
+def assemble_mov_reg(tokens: [Token]) -> str:
+    dest_reg = tokens[1].literal
+    error = validate_register(dest_reg)
+    if not error == None:
+        return error
+    source_reg = tokens[3].literal
+    error = validate_register(source_reg)
+    if not error == None:
+        return error
     return format_mov_reg(int(dest_reg[1:]), int(source_reg[1:]))
 
 def format_mov_reg(dest_reg: int, source_const: int) -> str:
@@ -41,7 +64,12 @@ def format_mov_reg(dest_reg: int, source_const: int) -> str:
 ____ ___________ ____ ____ ____________
 cond   inst       Rd  0000    imm12
 '''
-def assemble_cmp_imm(dest_reg: str, source_const: str) -> str:
+def assemble_cmp_imm(tokens: [Token]) -> str:
+    source_const = tokens[3].literal
+    dest_reg = tokens[1].literal
+    error = validate_register(dest_reg)
+    if not error == None:
+        return error
     return format_comp_imm(int(dest_reg[1:]), int(source_const[1:]))
 
 def format_comp_imm(dest_reg: int, source_const: int) -> str:
@@ -58,7 +86,15 @@ def format_comp_imm(dest_reg: int, source_const: int) -> str:
 ____ ___  _ _ _ _ _ ____        ____      ____________ 
 cond inst P U 0 W 1 source reg  dest reg  offset
 '''
-def assemble_ldr_imm(dest_reg: str, source_reg: str) -> str:
+def assemble_ldr_imm(tokens: [Token]) -> str:
+    dest_reg = tokens[1].literal
+    error = validate_register(dest_reg)
+    if not error == None:
+        return error
+    source_reg = tokens[3].literal
+    error = validate_register(source_reg)
+    if not error == None:
+        return error
     return format_ldr_imm(int(dest_reg[1:]), int(source_reg[1:]))
 
 def format_ldr_imm(dest_reg: int, source_reg: int) -> str:
@@ -72,13 +108,6 @@ def format_ldr_imm(dest_reg: int, source_reg: int) -> str:
     imm12 = to_bin(0, 12)
     
     return cond + inst + P + U + '0' + W + '1' + rn + rt + imm12
-        
-mnemonic_assemble_func = { 
-    (Mnemonic.MOVE.value, TokenType.REGISTER, TokenType.REGISTER): assemble_mov_reg,
-    (Mnemonic.MOVE.value, TokenType.REGISTER, TokenType.CONSTANT): assemble_mov_imm,
-    (Mnemonic.COMPARE.value, TokenType.REGISTER, TokenType.CONSTANT): assemble_cmp_imm,
-    (Mnemonic.LOAD.value, TokenType.REGISTER, TokenType.REGISTER): assemble_ldr_imm,
-}
 
 def to_bin(num: int, bit_count: int) -> str:
     s = bin(num)[2:]

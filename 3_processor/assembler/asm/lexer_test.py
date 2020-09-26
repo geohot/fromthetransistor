@@ -1,4 +1,4 @@
-from lexer import *
+from lexer import Lexer
 
 asm_source_code = '''
    mov r0, #10

@@ -1,4 +1,6 @@
 import sys
+import os
+
 from assembler import Assembler
 from lexer import Lexer
 
@@ -7,14 +9,13 @@ def main():
     assembler = Assembler()
     lexer = Lexer()
 
-    instructions = lexer.tokenize_instructions(file_text) # [[mov, r1, #7], ...]
+    tokens = lexer.tokenize_instructions(file_text) # [[mov, r1, #7], ...]
 
     print("look at my coins")
-    for tokens in instructions:
-        for token in tokens: 
-            print(token)
+    for token in tokens:
+        print(token.__str__())
 
-    bin_instructions = assembler.assemble_instructions(instructions)
+    bin_instructions = assembler.assemble_instructions(tokens)
 
     print("look at my binaries")
     # FIX: write all bin_instructions into a file
@@ -31,7 +32,7 @@ def get_file_text():
         print("should specify asm filename. example: python3 main.py asm.a")
         exit()
 
-    path = os.path.join(os.getcwd(), filename)
+    path = os.path.join(os.getcwd(), f'3_processor/assembler/asm/{filename}')
     asm_file = open(path, 'r')
     file_text = asm_file.read()
 

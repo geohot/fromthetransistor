@@ -11,6 +11,12 @@ def validate_register(register: str) -> None:
 
     return None
 
+def to_bin(num: int, bit_count: int) -> str:
+    s = bin(num)[2:]
+    for _ in range(bit_count - len(s)):
+        s = '0' + s
+    return s
+
 '''
 0000 00 1 1101 0 0000 0010 000000000101 # mov r2, #5
 ____ _________ _ ____ ____ ____________
@@ -109,9 +115,90 @@ def format_ldr_imm(dest_reg: int, source_reg: int) -> str:
     
     return cond + inst + P + U + '0' + W + '1' + rn + rt + imm12
 
-def to_bin(num: int, bit_count: int) -> str:
-    s = bin(num)[2:]
-    for _ in range(bit_count - len(s)):
-        s = '0' + s
-    return s
+'''
+0000 0010100 0 0000 0000 000000000000
+____ _______ _ ____ ____ ____________
+cond inst    s rn   rd   imm
+'''
 
+def assemble_add_imm(tokens: [Token]) -> str:
+    constant = tokens[5].literal
+    source_reg = tokens[1].literal
+    error = validate_register(source_reg)
+    if not error == None:
+        return error
+    dest_reg = tokens[3].literal
+    error = validate_register(dest_reg)
+    if not error == None:
+        return error
+    return format_add_imm(int(dest_reg[1:]), int(source_reg[1:]), int(constant[1:]))
+
+def format_add_imm(dest_reg: int, source_reg: int, constant: int) -> str:
+    cond = '0000'
+    inst = '0010100'
+    s = '0'
+    rn = to_bin(source_reg, 4)
+    rd = to_bin(dest_reg, 4)
+    imm12 = to_bin(constant, 12)
+
+    return cond + inst + s + rn + rd + imm12
+
+'''
+0000 0010000 0 0000 0000 000000000000
+____ _______ _ ____ ____ ____________
+cond inst    s rn   rd   imm12
+'''
+
+def assemble_and_imm(tokens: [Token]) -> str:
+    constant = tokens[5].literal
+    source_reg = tokens[1].literal
+    error = validate_register(source_reg)
+    if not error == None:
+        return error
+    dest_reg = tokens[3].literal
+    error = validate_register(dest_reg)
+    if not error == None:
+        return error
+    
+    return format_and_imm(int(dest_reg[1:]), int(source_reg[1:]), int(constant[1:]))
+
+def format_and_imm(dest_reg: int, source_reg: int, constant: int):
+    cond = '0000'
+    inst = '0010000'
+    s = '0'
+    rn = to_bin(source_reg, 4)
+    rd = to_bin(dest_reg, 4)
+    imm12 = to_bin(constant, 12)
+
+    return cond + inst + s + rn + rd + imm12
+
+'''
+0000 010  0 0 0 0 0 0000 0000 000000000000
+____ ___  _ _ _ _ _ ____ ____ ____________
+cond inst p u 0 w 0 rn   rt   imm12
+'''
+
+def assemble_str_imm(tokens: [Token]) -> str:
+    constant = tokens[5].literal
+    source_reg = tokens[1].literal
+    error = validate_register(source_reg)
+    if not error == None:
+        return error
+    dest_reg = tokens[3].literal
+    error = validate_register(dest_reg)
+    if not error == None:
+        return error
+    
+    return format_str_imm(int(dest_reg[1:]), int(source_reg[1:]), int(constant[1:]))
+
+def format_str_imm(dest_reg: int, source_reg: int, constant: int) -> str:
+    cond = '0000'
+    inst = '010'
+    p = '0'
+    u = '0'
+    w = '0'
+    rn = to_bin(source_reg, 4)
+    rt = to_bin(dest_reg, 4)
+    imm12 = to_bin(constant, 12)
+
+    return cond + inst + p + u + '0' + w + '0' + rn + rt + imm12

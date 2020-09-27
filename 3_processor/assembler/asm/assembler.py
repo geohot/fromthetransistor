@@ -6,7 +6,10 @@ instruction_map = {
     (Mnemonic.MOVE.value, TokenType.REGISTER, TokenType.COMMA, TokenType.CONSTANT, TokenType.EOL): assemble_mov_imm,
     (Mnemonic.MOVE.value, TokenType.REGISTER, TokenType.COMMA, TokenType.REGISTER, TokenType.EOL): assemble_mov_reg,
     (Mnemonic.COMPARE.value, TokenType.REGISTER, TokenType.COMMA, TokenType.CONSTANT, TokenType.EOL): assemble_cmp_imm,
-    (Mnemonic.LOAD.value, TokenType.REGISTER, TokenType.COMMA, TokenType.REGISTER, TokenType.EOL): assemble_ldr_imm
+    (Mnemonic.LOAD.value, TokenType.REGISTER, TokenType.COMMA, TokenType.REGISTER, TokenType.EOL): assemble_ldr_imm,
+    (Mnemonic.ADD.value, TokenType.REGISTER, TokenType.COMMA, TokenType.REGISTER, TokenType.COMMA, TokenType.CONSTANT, TokenType.EOL): assemble_add_imm,
+    (Mnemonic.AND.value, TokenType.REGISTER, TokenType.COMMA, TokenType.REGISTER, TokenType.COMMA, TokenType.CONSTANT, TokenType.EOL): assemble_and_imm,
+    (Mnemonic.STR.value, TokenType.REGISTER, TokenType.COMMA, TokenType.REGISTER, TokenType.COMMA, TokenType.CONSTANT, TokenType.EOL): assemble_str_imm
 }
 
 class Assembler:

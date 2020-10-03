@@ -1,5 +1,5 @@
 from enum import Enum
-
+# A8.3 Conditional execution
 class Mnemonic(Enum):
     MOVE = 'mov'
     ADD = 'add'
@@ -7,12 +7,12 @@ class Mnemonic(Enum):
     LOAD = 'ldr'
     COMPARE = 'cmp'
     STR = 'str'
-    JUMP = 'jmp'
+    B = 'b'
     OR = 'orr'
     XOR = 'xor'
     POP = 'pop'
     PUSH = 'push'
-    JEQ = 'jeq'
+    ADDEQ = 
 
 mnemonic_literals = list(map(lambda c: c.value, Mnemonic))
 

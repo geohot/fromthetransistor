@@ -202,3 +202,21 @@ def format_str_imm(dest_reg: int, source_reg: int, constant: int) -> str:
     imm12 = to_bin(constant, 12)
 
     return cond + inst + p + u + '0' + w + '0' + rn + rt + imm12
+
+'''
+1101 0000 00000000
+____ ____ ________
+archer#9367
+inst cond imm8
+'''
+
+def assemble_branch(tokens: [Token]) -> str:
+    constant = tokens[1].literal
+    return format_branch(int(constant[1:]))
+
+def format_branch(constant: int) -> str:
+    inst = '1101'
+    cond = '0000'
+    imm8 = to_bin(constant, 8)
+
+    return inst + cond + imm8

@@ -9,7 +9,8 @@ instruction_map = {
     (Mnemonic.LOAD.value, TokenType.REGISTER, TokenType.COMMA, TokenType.REGISTER, TokenType.EOL): assemble_ldr_imm,
     (Mnemonic.ADD.value, TokenType.REGISTER, TokenType.COMMA, TokenType.REGISTER, TokenType.COMMA, TokenType.CONSTANT, TokenType.EOL): assemble_add_imm,
     (Mnemonic.AND.value, TokenType.REGISTER, TokenType.COMMA, TokenType.REGISTER, TokenType.COMMA, TokenType.CONSTANT, TokenType.EOL): assemble_and_imm,
-    (Mnemonic.STR.value, TokenType.REGISTER, TokenType.COMMA, TokenType.REGISTER, TokenType.COMMA, TokenType.CONSTANT, TokenType.EOL): assemble_str_imm
+    (Mnemonic.STR.value, TokenType.REGISTER, TokenType.COMMA, TokenType.REGISTER, TokenType.COMMA, TokenType.CONSTANT, TokenType.EOL): assemble_str_imm,
+    (Mnemonic.B.value, TokenType.CONSTANT, TokenType.EOL): assemble_branch
 }
 
 class Assembler:

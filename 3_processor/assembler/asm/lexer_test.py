@@ -1,22 +1,22 @@
-from lexer import Lexer
+from lexer import Lexer, Token, TokenType
 
 asm_source_code = '''
    mov r0, #10
    mov r1, r0
 '''
 
-correct_tokens = [
-    "token_type: EOL, literal: \n",
-    "token_type: MNEMONIC, literal: mov",
-    "token_type: REGISTER, literal: r0",
-    "token_type: COMMA, literal: ,",
-    "token_type: CONSTANT, literal: #10",
-    "token_type: EOL, literal: \n",
-    "token_type: MNEMONIC, literal: mov",
-    "token_type: REGISTER, literal: r1",
-    "token_type: COMMA, literal: ,",
-    "token_type: REGISTER, literal: r0",
-    "token_type: EOL, literal: \n"
+want_tokens = [
+    Token(token_type=TokenType.EOL, literal= '\n'),
+    Token(token_type=TokenType.MNEMONIC, literal= 'mov'),
+    Token(token_type=TokenType.REGISTER, literal= 'r0'),
+    Token(token_type=TokenType.COMMA, literal= ','),
+    Token(token_type=TokenType.CONSTANT, literal= '#10'),
+    Token(token_type=TokenType.EOL, literal= '\n'),
+    Token(token_type=TokenType.MNEMONIC, literal= 'mov'),
+    Token(token_type=TokenType.REGISTER, literal= 'r1'),
+    Token(token_type=TokenType.COMMA, literal= ','),
+    Token(token_type=TokenType.REGISTER, literal= 'r0'),
+    Token(token_type=TokenType.EOL, literal= '\n'),
 ]
 
 def test():
@@ -26,13 +26,16 @@ def test():
 
     print("Testing the coins...")
 
-    if len(tokens) != len(correct_tokens):
+    if len(tokens) != len(want_tokens):
         print(f'have {len(tokens)}, want {len(correct_tokens)}')
         exit()
 
     for i in range(len(tokens)):
-        if tokens[i].__str__() != correct_tokens[i]:
-            print(f'Have {tokens[i].__str__()}, want {correct_tokens[i]}')
+        if tokens[i].token_type != want_tokens[i].token_type:
+            print(f'Have token type {tokens[i].token_type}, want {want_tokens[i].token_type}')
+            exit()
+        if str(tokens[i].literal) != str(want_tokens[i].literal):
+            print(f'Have token type {tokens[i].literal}, want {want_tokens[i].literal}')
             exit()
     
     print("Good coins :3 Tests Passed!")

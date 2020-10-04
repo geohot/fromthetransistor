@@ -13,6 +13,8 @@ mov r1, #7
 mov r2, r5
 cmp r2, #5
 ldr r2, r5
+msg: .string "Look mama, I can fly!"
+chido_num .short 1010010101
 '''
 
 def test():

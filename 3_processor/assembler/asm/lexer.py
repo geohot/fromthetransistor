@@ -9,18 +9,25 @@ class TokenType(enum.Enum):
     REGISTER = enum.auto()
     CONSTANT = enum.auto()
     ILLEGAL = enum.auto()
+    VARIABLE_NAME = enum.auto()
+    VARIABLE_TYPE = enum.auto()
+    STRING = enum.auto()
+    NUMBER = enum.auto()
     EOL = enum.auto()
 
     def __str__(self):
         return self.name
 
 class Token:
-    def __init__(self, token_type: TokenType, literal: str):
+    def __init__(self, token_type: TokenType=TokenType.ILLEGAL, literal: str=''):
         self.token_type = token_type
         self.literal = literal
 
     def __str__(self):
-        return "token_type: " + self.token_type.__str__() + ", literal: " + self.literal.__str__()
+        return "<Token(token_type= " + str(self.token_type) + ", literal= " + self.literal + ")>"
+
+    def __repr__(self):
+        return self.__str__()
 
 class Lexer:
     def __init__(self):
@@ -50,23 +57,53 @@ class Lexer:
 
     def next_token(self, input_text: str, end: int) -> Token:
         start = self.current
-        while self.current < end:
-            if self.is_whitespace(input_text[self.current]):
-                return Token(self.token_type(input_text[start:self.current]), input_text[start:self.current])
-            elif self.current + 1 < end and input_text[self.current + 1] == ',':
-                return Token(self.token_type(input_text[start:self.current + 1]), input_text[start:self.current + 1])
-            self.current += 1
-        return Token(self.token_type(input_text[start:self.current]), input_text[start:self.current])
+        inside_string = False
 
-    def token_type(self, literal: str) -> TokenType:
+        while self.current < end:
+            if self.is_whitespace(input_text[self.current]) and not inside_string:
+                return self.format_token(input_text[start:self.current])
+            elif self.current + 1 < end and input_text[self.current + 1] == ',' and not inside_string:
+                return Token(self.get_token_type(input_text[start:self.current + 1]), input_text[start:self.current + 1])
+            elif not inside_string and input_text[self.current] == '"':
+                inside_string = True
+            elif inside_string and input_text[self.current] == '"':
+                return self.format_token(input_text[start:self.current + 1])
+            self.current += 1
+        return Token(self.get_token_type(input_text[start:self.current]), input_text[start:self.current])
+
+    def format_token(self, s: str) -> Token:
+        token = Token()
+        token.token_type = self.get_token_type(s)
+        if token.token_type == TokenType.VARIABLE_NAME:
+            token.literal = s[:-1]
+        elif token.token_type == TokenType.VARIABLE_TYPE:
+            token.literal = s[1:]
+        elif token.token_type == TokenType.STRING:
+            token.literal = s[1:-1]
+        else:
+            token.literal = s
+
+        return token
+
+    def get_token_type(self, literal: str) -> TokenType:
         if literal == ',':
             return TokenType.COMMA
+
         if literal in mnemonic_literals:
             return TokenType.MNEMONIC
+        
         if len(literal) > 1:
             if literal[0] == 'r' and self.is_digit(literal[1:]):
                 return TokenType.REGISTER
             elif literal[0] == '#':
                 return TokenType.CONSTANT
+            elif literal[-1] == ':':
+                return TokenType.VARIABLE_NAME
+            elif literal[0] == '.':
+                return TokenType.VARIABLE_TYPE
+            elif self.is_digit(literal):
+                return TokenType.NUMBER
+            elif literal[0] == '"' and literal[-1] == '"':
+                return TokenType.STRING
         return TokenType.ILLEGAL
 

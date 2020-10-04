@@ -206,9 +206,17 @@ def format_str_imm(dest_reg: int, source_reg: int, constant: int) -> str:
 '''
 1101 0000 00000000
 ____ ____ ________
-archer#9367
 inst cond imm8
 '''
+
+def assemble_variable_number():
+    pass
+
+def format_variable_string():
+    pass
+
+def assemble_variable_string():
+    pass
 
 def assemble_branch(tokens: [Token]) -> str:
     constant = tokens[1].literal

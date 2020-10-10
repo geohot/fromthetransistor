@@ -2,12 +2,14 @@ import os
 import enum 
 import sys
 from mnemonics import mnemonic_literals
+from conditions import condition_literals
 
 class TokenType(enum.Enum):
     MNEMONIC = enum.auto()
     COMMA = enum.auto()
     REGISTER = enum.auto()
     CONSTANT = enum.auto()
+    CONDITION = enum.auto()
     ILLEGAL = enum.auto()
     VARIABLE_NAME = enum.auto()
     VARIABLE_TYPE = enum.auto()
@@ -60,10 +62,14 @@ class Lexer:
         inside_string = False
 
         while self.current < end:
-            if self.is_whitespace(input_text[self.current]) and not inside_string:
-                return self.format_token(input_text[start:self.current])
-            elif self.current + 1 < end and input_text[self.current + 1] == ',' and not inside_string:
+            if self.current + 1 < end and input_text[self.current + 1] == ',' and not inside_string:
                 return Token(self.get_token_type(input_text[start:self.current + 1]), input_text[start:self.current + 1])
+            elif not inside_string and self.current + 1 < end and self.is_whitespace(input_text[self.current + 1]):
+                literal = input_text[start:self.current + 1]
+                if len(literal) > 3 and literal[-2:] in condition_literals:
+                    self.current -= 2
+                    return Token(self.get_token_type(literal[:-2]), literal[:-2])
+                return self.format_token(input_text[start:self.current + 1])
             elif not inside_string and input_text[self.current] == '"':
                 inside_string = True
             elif inside_string and input_text[self.current] == '"':
@@ -91,6 +97,9 @@ class Lexer:
 
         if literal in mnemonic_literals:
             return TokenType.MNEMONIC
+        
+        if literal in condition_literals:
+            return TokenType.CONDITION
         
         if len(literal) > 1:
             if literal[0] == 'r' and self.is_digit(literal[1:]):

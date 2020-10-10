@@ -1,10 +1,11 @@
 from lexer import Lexer, Token, TokenType
 
 asm_source_code = '''
-   mov r0, #10
-   mov r1, r0
-   num: .short 010
-   msg: .string "Hello, arm"
+    mov r0, #10
+    mov r1, r0
+    num: .short 010
+    msg: .string "Hello, arm"
+    addlt r0, r0, #1
 '''
 
 want_tokens = [
@@ -31,6 +32,15 @@ want_tokens = [
     Token(token_type=TokenType.VARIABLE_TYPE, literal= 'string'),
     Token(token_type=TokenType.STRING, literal= 'Hello, arm'),
     Token(token_type=TokenType.EOL, literal= '\n'),
+
+    Token(token_type=TokenType.MNEMONIC, literal= "add"),
+    Token(token_type=TokenType.CONDITION, literal= "lt"),
+    Token(token_type=TokenType.REGISTER, literal= "r0"),
+    Token(token_type=TokenType.COMMA, literal= ","),
+    Token(token_type=TokenType.REGISTER, literal= "r0"),
+    Token(token_type=TokenType.COMMA, literal= ","),
+    Token(token_type=TokenType.CONSTANT, literal= "#1"),
+    Token(token_type=TokenType.EOL, literal= "\n"),
 ]
 
 def test():

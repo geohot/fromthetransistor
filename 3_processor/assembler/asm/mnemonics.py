@@ -12,7 +12,6 @@ class Mnemonic(Enum):
     XOR = 'xor'
     POP = 'pop'
     PUSH = 'push'
-    # ADDEQ = 
 
 mnemonic_literals = list(map(lambda c: c.value, Mnemonic))
 

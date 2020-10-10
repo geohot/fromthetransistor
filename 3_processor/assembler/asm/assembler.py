@@ -33,10 +33,9 @@ class Assembler:
         return self.binary_instructions
 
     def assemble_instruction(self, tokens: [Token]) -> str:
-        key = tuple((map(lambda t: t.token_type, tokens)))
-        if tokens[0].token_type == TokenType.MNEMONIC:
-            key = tuple((tokens[0].literal, *map(lambda t: t.token_type, tokens[1:])))
-
+        rest = tokens[2:] if len(tokens) > 1 and tokens[1].token_type == TokenType.CONDITION else tokens[1:]
+        key = tuple((tokens[0].literal, *map(lambda t: t.token_type, rest))) if tokens[0].token_type == TokenType.MNEMONIC else tuple((map(lambda t: t.token_type, tokens)))
+        print(key)
         if key in instruction_map:
             return instruction_map[key](tokens)
 

@@ -1,4 +1,4 @@
 #!/bin/bash
 
-iverilog -o blinky blinky.v blinky_tb.v
+iverilog -o blinky_tp.vvp blinky_tb.v
 vvp blinky

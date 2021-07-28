@@ -1,13 +1,13 @@
 $date
-	Tue Jul 27 10:29:28 2021
+	Wed Jul 28 07:55:02 2021
 $end
 $version
 	Icarus Verilog
 $end
 $timescale
-	1s
+	1ns
 $end
-$scope module blinky_testbench $end
+$scope module blinky_tb $end
 $var wire 1 ! light_on $end
 $var reg 1 " clock $end
 $scope module U_blinky $end

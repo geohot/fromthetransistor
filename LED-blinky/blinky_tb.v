@@ -1,14 +1,17 @@
-module blinky_testbench();
+`timescale 1ns / 1ns
+`include "blinky.v"
+
+module blinky_tb();
   
-  //  
+  // outputs and inputs 
   output reg clock;
   input wire light_on;
 
   // initial block is executed once
   initial begin
     // dump file and vars to use in gtkwave
-    $dumpfile("test.vcd");
-    $dumpvars(0, blinky_testbench);
+    $dumpfile("blinky.vcd");
+    $dumpvars(0, blinky_tb);
     // initial value of clock
     clock = 1;
     #100 $finish;

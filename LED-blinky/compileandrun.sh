@@ -1,4 +1,6 @@
 #!/bin/bash
 
-iverilog -o blinky_tp.vvp blinky_tb.v
-vvp blinky
+echo "compiling";
+iverilog -o blinky.vvp blinky_tb.v
+echo "runing"; 
+vvp blinky.vvp

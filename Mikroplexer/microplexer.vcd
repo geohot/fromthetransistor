@@ -1,0 +1,44 @@
+$date
+	Fri Aug  6 21:41:46 2021
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1s
+$end
+$scope module microplexer_tb $end
+$var wire 4 ! sel4 [3:0] $end
+$var wire 1 " wire_in $end
+$var wire 4 # inputs [3:0] $end
+$var reg 4 $ reg_inputs [3:0] $end
+$scope module MyMicro $end
+$var wire 4 % inputs [3:0] $end
+$var wire 4 & sel4 [3:0] $end
+$var wire 1 " wire_out $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+#0
+$dumpvars
+b1 &
+b1000 %
+b1000 $
+b1000 #
+0"
+b1 !
+$end
+#2
+b100 #
+b100 $
+b100 %
+#4
+b10 #
+b10 $
+b10 %
+#6
+1"
+b1 #
+b1 $
+b1 %
+#16

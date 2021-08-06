@@ -1,0 +1,25 @@
+#! /usr/local/Cellar/icarus-verilog/11.0/bin/vvp
+:ivl_version "11.0 (stable)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision + 0;
+:vpi_module "/usr/local/Cellar/icarus-verilog/11.0/lib/ivl/system.vpi";
+:vpi_module "/usr/local/Cellar/icarus-verilog/11.0/lib/ivl/vhdl_sys.vpi";
+:vpi_module "/usr/local/Cellar/icarus-verilog/11.0/lib/ivl/vhdl_textio.vpi";
+:vpi_module "/usr/local/Cellar/icarus-verilog/11.0/lib/ivl/v2005_math.vpi";
+:vpi_module "/usr/local/Cellar/icarus-verilog/11.0/lib/ivl/va_math.vpi";
+S_0x7fa7c4c08a70 .scope module, "microplexer_tb" "microplexer_tb" 2 2;
+ .timescale 0 0;
+    .port_info 0 /OUTPUT 6 "set";
+v0x7fa7c4c07440_0 .var "set", 5 0;
+    .scope S_0x7fa7c4c08a70;
+T_0 ;
+    %pushi/vec4 2, 0, 6;
+    %store/vec4 v0x7fa7c4c07440_0, 0, 6;
+    %vpi_call 2 8 "$display", "%b", v0x7fa7c4c07440_0 {0 0 0};
+    %end;
+    .thread T_0;
+# The file index is used to find the file name in the following table.
+:file_names 3;
+    "N/A";
+    "<interactive>";
+    "microplexer_tb.v";

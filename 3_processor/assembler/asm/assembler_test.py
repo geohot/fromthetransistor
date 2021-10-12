@@ -1,5 +1,6 @@
 from lexer import Lexer
 from assembler import Assembler
+from symbol_table import SymbolTable
 
 correct_instructions = [
     '1110 00 1 1101 0 0000 0001 000000000111',
@@ -10,15 +11,21 @@ correct_instructions = [
 ]
 
 asm_source_code = '''
-mov r1, #7
-mov r2, r5
-cmp r2, #5
-ldr r2, r5
-addlt r0, r0, #1
+    mov r1, #7
+    mov r2, r5
+    cmp r2, #5
+    ldr r2, r5
+    addlt r0, r0, #1
+    func:
+        b start
+    start:
+        b #4
 '''
 
 def test():
-    lexer = Lexer()
+    symbol_table = SymbolTable()
+    lexer = Lexer(symbol_table)
+    lexer.initialize_symbol_table(asm_source_code)
     assembler = Assembler()
     
     bin_instructions = assembler.assemble_instructions(lexer.tokenize_instructions(asm_source_code))

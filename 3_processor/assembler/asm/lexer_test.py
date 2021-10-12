@@ -1,4 +1,5 @@
 from lexer import Lexer, Token, TokenType
+from symbol_table import SymbolTable
 
 asm_source_code = '''
     mov r0, #10
@@ -6,6 +7,10 @@ asm_source_code = '''
     num: .short 010
     msg: .string "Hello, arm"
     addlt r0, r0, #1
+    func:
+        b start
+    start:
+        b #4
 '''
 
 want_tokens = [
@@ -41,11 +46,24 @@ want_tokens = [
     Token(token_type=TokenType.COMMA, literal= ","),
     Token(token_type=TokenType.CONSTANT, literal= "#1"),
     Token(token_type=TokenType.EOL, literal= "\n"),
+
+    Token(token_type=TokenType.VARIABLE_NAME, literal= "func"),
+    Token(token_type=TokenType.EOL, literal= "\n"),
+    Token(token_type=TokenType.MNEMONIC, literal= "b"),
+    Token(token_type=TokenType.VARIABLE_REFERENCE, literal= "start"),
+    Token(token_type=TokenType.EOL, literal= "\n"),
+
+    Token(token_type=TokenType.VARIABLE_NAME, literal= "start"),
+    Token(token_type=TokenType.EOL, literal= "\n"),
+    Token(token_type=TokenType.MNEMONIC, literal= "b"),
+    Token(token_type=TokenType.CONSTANT, literal= "#4"),
+    Token(token_type=TokenType.EOL, literal= "\n"),
 ]
 
 def test():
-    lexer = Lexer()
-
+    symbol_table = SymbolTable()
+    lexer = Lexer(symbol_table)
+    lexer.initialize_symbol_table(asm_source_code)
     tokens = lexer.tokenize_instructions(asm_source_code)
 
     print("Testing the coins...")
